@@ -1,6 +1,7 @@
-##Chatbot Recommendation Engine
+###Chatbot Recommendation Engine
 
-####Two main components type explored with different algorithms,
+##### Two main components type explored with different algorithms,
+
             1. UserBased Recommendation Engine
                 -PearsonCorrelationSimilarity
                 -LogLikelihoodSimilarity
