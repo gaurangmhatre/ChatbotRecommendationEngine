@@ -65,6 +65,7 @@ public class ItemBasedRecommendation {
     @RequestMapping(value = "/updateUserData", method = RequestMethod.POST)
     public ResponseEntity< String > persistPerson(@RequestBody UserItemModel user) throws Exception {
             dbhelper.insertDataIntotable(user);
+            setupProcess();
             return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
@@ -74,8 +75,6 @@ public class ItemBasedRecommendation {
         // TODO Auto-generated method stub
         System.out.println("ITEM Based recommendation system");
 
-        //DBHelper dbhelper = new DBHelper();
-        //dbhelper.insertDataIntotable(200,6,4);
         dbhelper.addorupdatedatatoCSV();
 
         DataModel model = new FileDataModel(new File("UserItemRating.csv")); //original file
