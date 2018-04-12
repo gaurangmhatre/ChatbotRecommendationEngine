@@ -20,10 +20,10 @@ import org.apache.mahout.cf.taste.recommender.Recommender;
 import org.apache.mahout.cf.taste.similarity.ItemSimilarity;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -36,6 +36,7 @@ import java.util.List;
 public class ItemBasedRecommendation {
 
     static ItemBasedRecommender recommender = null;
+    static DBHelper dbhelper = new DBHelper();
     public ItemBasedRecommendation(){ }
 
     @RequestMapping("/")
@@ -44,7 +45,7 @@ public class ItemBasedRecommendation {
         return "Hello World!";
     }
 
-    //http://localhost:8090/getItemBasedRecommendations?userId=200&numberOfRecommendation=6
+    // http://localhost:8090/getItemBasedRecommendations?userId=200&numberOfRecommendation=6
     @RequestMapping("/getItemBasedRecommendations")
     @ResponseBody
     String getItemBasedRecommendations(@RequestParam(value="userId", defaultValue="200") String userId, @RequestParam(value="numberOfRecommendation", defaultValue="5") String numberOfRecommendation )throws Exception{
@@ -63,12 +64,20 @@ public class ItemBasedRecommendation {
         return output;
     }
 
+    // http://localhost:8090/updateUserData     body: {"userId": "200","itemId": "9","ratings": "5"}
+    @RequestMapping(value = "/updateUserData", method = RequestMethod.POST)
+    public ResponseEntity< String > persistPerson(@RequestBody UserItemModel user) throws Exception {
+            dbhelper.insertDataIntotable(user);
+            return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+
 
     public static void setupProcess() throws Exception{
         // TODO Auto-generated method stub
         System.out.println("ITEM Based recommendation system");
 
-        DBHelper dbhelper = new DBHelper();
+        //DBHelper dbhelper = new DBHelper();
         //dbhelper.insertDataIntotable(200,6,4);
         dbhelper.addorupdatedatatoCSV();
 

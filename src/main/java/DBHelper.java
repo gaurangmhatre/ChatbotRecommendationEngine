@@ -62,12 +62,20 @@ public class DBHelper {
         return output;
     }
 
-    public void insertDataIntotable(int userId, int itemId, int rating)throws Exception{
+    public void insertDataIntotable(int userId, int itemId, int ratings)throws Exception{
         stmt = c.createStatement();
         String  query = "INSERT INTO UserItemRelation (User_id,Item_id,Ratings) "
-                + "VALUES ("+userId +", "+ itemId + ", "+rating +");";
+                + "VALUES ("+userId +", "+ itemId + ", "+ratings +");";
         stmt.executeUpdate(query);
     }
+
+    public void insertDataIntotable(UserItemModel user)throws Exception{
+        stmt = c.createStatement();
+        String  query = "INSERT INTO UserItemRelation (User_id,Item_id,Ratings) "
+                + "VALUES ("+user.userId +", "+ user.itemId + ", "+user.ratings +");";
+        stmt.executeUpdate(query);
+    }
+
 
 
     public void addorupdatedatatoCSV()throws Exception{
