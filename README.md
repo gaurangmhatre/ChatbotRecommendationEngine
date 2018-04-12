@@ -23,6 +23,16 @@
             Endpoint 1:[GET] /getItemBasedRecommendations
             eg:
                 http://localhost:8090/getItemBasedRecommendations?userId=200&numberOfRecommendation=6
+                
+                output:
+                [{"itemID":1,"value":3.5782933},
+                {"itemID":19,"value":3.5644608},
+                {"itemID":13,"value":3.5610337},
+                {"itemID":4,"value":3.5541322},
+                {"itemID":17,"value":3.5536952},
+                {"itemID":18,"value":3.5515275}]
+            
+            
             
             Endpoint 2: [POST] /updateUserData
             eg:
