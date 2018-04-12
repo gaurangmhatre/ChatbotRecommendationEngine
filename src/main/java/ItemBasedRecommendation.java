@@ -22,6 +22,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.io.File;
@@ -35,9 +36,7 @@ import java.util.List;
 public class ItemBasedRecommendation {
 
     static ItemBasedRecommender recommender = null;
-    public ItemBasedRecommendation(){
-    }
-
+    public ItemBasedRecommendation(){ }
 
     @RequestMapping("/")
     @ResponseBody
@@ -45,19 +44,24 @@ public class ItemBasedRecommendation {
         return "Hello World!";
     }
 
-  /*  @RequestMapping("/")
+    //http://localhost:8090/getItemBasedRecommendations?userId=200&numberOfRecommendation=6
+    @RequestMapping("/getItemBasedRecommendations")
     @ResponseBody
-    String getItemBasedRecommendations()throws Exception{
-
-        List<RecommendedItem> recommendations = recommender.recommend(200, 3);
+    String getItemBasedRecommendations(@RequestParam(value="userId", defaultValue="200") String userId, @RequestParam(value="numberOfRecommendation", defaultValue="5") String numberOfRecommendation )throws Exception{
         String output = "";
+        if(userId!=null) {
+            int user = Integer.parseInt(userId);
+            int numberRecommendation =  Integer.parseInt(numberOfRecommendation);
+            List<RecommendedItem> recommendations = recommender.recommend(user, numberRecommendation);
 
-        for (RecommendedItem recommendation : recommendations) {
-            System.out.println("recommendation : "+recommendation);
-            output+=recommendation;
+
+            for (RecommendedItem recommendation : recommendations) {
+                System.out.println("recommendation : " + recommendation);
+                output += recommendation;
+            }
         }
         return output;
-    }*/
+    }
 
 
     public static void setupProcess() throws Exception{
@@ -108,7 +112,5 @@ public class ItemBasedRecommendation {
     public static void main(String[] args) throws Exception{
         SpringApplication.run(ItemBasedRecommendation.class, args);
         setupProcess();
-
-
     }
 }
