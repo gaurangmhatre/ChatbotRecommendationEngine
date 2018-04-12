@@ -48,20 +48,17 @@ public class ItemBasedRecommendation {
     // http://localhost:8090/getItemBasedRecommendations?userId=200&numberOfRecommendation=6
     @RequestMapping("/getItemBasedRecommendations")
     @ResponseBody
-    String getItemBasedRecommendations(@RequestParam(value="userId", defaultValue="200") String userId, @RequestParam(value="numberOfRecommendation", defaultValue="5") String numberOfRecommendation )throws Exception{
+    ResponseEntity<Object> getItemBasedRecommendations(@RequestParam(value="userId", defaultValue="200") String userId, @RequestParam(value="numberOfRecommendation", defaultValue="5") String numberOfRecommendation )throws Exception{
         String output = "";
-        if(userId!=null) {
-            int user = Integer.parseInt(userId);
-            int numberRecommendation =  Integer.parseInt(numberOfRecommendation);
-            List<RecommendedItem> recommendations = recommender.recommend(user, numberRecommendation);
-
-
-            for (RecommendedItem recommendation : recommendations) {
-                System.out.println("recommendation : " + recommendation);
-                output += recommendation;
-            }
+        List<RecommendedItem> recommendations;
+        if(userId==null) {
+            return null;
         }
-        return output;
+        int user = Integer.parseInt(userId);
+        int numberRecommendation =  Integer.parseInt(numberOfRecommendation);
+        recommendations = recommender.recommend(user, numberRecommendation);
+
+        return new ResponseEntity<>(recommendations, HttpStatus.OK);
     }
 
     // http://localhost:8090/updateUserData     body: {"userId": "200","itemId": "9","ratings": "5"}
