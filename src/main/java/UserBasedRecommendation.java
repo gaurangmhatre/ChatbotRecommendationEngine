@@ -23,12 +23,15 @@ import java.io.IOException;
 import java.util.List;
 
 public class UserBasedRecommendation {
-    public static void main(String[] args) throws IOException, TasteException {
+    public static void main(String[] args) throws Exception{
         // TODO Auto-generated method stub
         System.out.println("USER Based recommendation system");
-        //DataModel model = new FileDataModel(new File("ratings-1.csv")); //original file
 
-        DataModel model = new FileDataModel(new File("ratings-1_NormalizedSpecialCSV.csv"));// Normalized file
+        DBHelper dbhelper = new DBHelper();
+        //dbhelper.insertDataIntotable(200,6,4);
+        dbhelper.addorupdatedatatoCSV();
+
+        DataModel model = new FileDataModel(new File("UserItemRating.csv")); //original file
 
         //UserSimilarity similarity = new PearsonCorrelationSimilarity(model);
 

@@ -18,16 +18,49 @@ import org.apache.mahout.cf.taste.recommender.ItemBasedRecommender;
 import org.apache.mahout.cf.taste.recommender.RecommendedItem;
 import org.apache.mahout.cf.taste.recommender.Recommender;
 import org.apache.mahout.cf.taste.similarity.ItemSimilarity;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
+
+@Controller
+@EnableAutoConfiguration
 public class ItemBasedRecommendation {
 
+    static ItemBasedRecommender recommender = null;
+    public ItemBasedRecommendation(){
+    }
 
-    public static void main(String[] args) throws Exception, IOException, TasteException {
+
+    @RequestMapping("/")
+    @ResponseBody
+    String home() {
+        return "Hello World!";
+    }
+
+  /*  @RequestMapping("/")
+    @ResponseBody
+    String getItemBasedRecommendations()throws Exception{
+
+        List<RecommendedItem> recommendations = recommender.recommend(200, 3);
+        String output = "";
+
+        for (RecommendedItem recommendation : recommendations) {
+            System.out.println("recommendation : "+recommendation);
+            output+=recommendation;
+        }
+        return output;
+    }*/
+
+
+    public static void setupProcess() throws Exception{
         // TODO Auto-generated method stub
         System.out.println("ITEM Based recommendation system");
 
@@ -47,12 +80,7 @@ public class ItemBasedRecommendation {
         System.out.println( "Similarity = "+similarity.toString());
 
         Optimizer optimizer=new ConjugateGradientOptimizer();
-        final ItemBasedRecommender recommender = new KnnItemBasedRecommender(model,similarity,optimizer,neighbours);
-
-        List<RecommendedItem> recommendations = recommender.recommend(200, 3);
-        for (RecommendedItem recommendation : recommendations) {
-            System.out.println("recommendation : "+recommendation);
-        }
+        recommender = new KnnItemBasedRecommender(model,similarity,optimizer,neighbours);
 
 
         RecommenderBuilder recommenderBuilder = new RecommenderBuilder() {
@@ -74,6 +102,12 @@ public class ItemBasedRecommendation {
         System.out.println("Precision: " + stats.getPrecision());
         System.out.println("Recall: " + stats.getRecall());
         System.out.println("F1 Score: " + stats.getF1Measure());
+
+    }
+
+    public static void main(String[] args) throws Exception{
+        SpringApplication.run(ItemBasedRecommendation.class, args);
+        setupProcess();
 
 
     }
