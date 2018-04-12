@@ -1,4 +1,4 @@
-###Chatbot Recommendation Engine
+# Chatbot Recommendation Engine
 
 ##### Two main components type explored with different algorithms,
 
@@ -34,5 +34,5 @@
             2. Apache.Mahout for recommendations
             3. Java Spring Boot for REST api
  
- ######The spring application is running on port 8090 by default.
+The spring application is running on port 8090 by default.
  
