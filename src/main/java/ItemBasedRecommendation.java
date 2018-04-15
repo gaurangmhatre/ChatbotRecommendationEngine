@@ -34,10 +34,20 @@ import java.util.List;
 
 public class ItemBasedRecommendation {
 
-    static ItemBasedRecommender recommender = null;
-    static DBHelper dbhelper = new DBHelper();
-    public ItemBasedRecommendation(){ }
+    private static ItemBasedRecommendation itemBasedRecommendation = null;
 
+    static ItemBasedRecommender recommender = null;
+    DataLoadBridge dataLoadBridge = null;
+    private ItemBasedRecommendation(){
+        dataLoadBridge =  DataLoadBridge.getInstance();
+    }
+
+    public static ItemBasedRecommendation getInstance(){
+        if(itemBasedRecommendation ==null){
+            itemBasedRecommendation=new ItemBasedRecommendation();
+        }
+        return itemBasedRecommendation;
+    }
 
     ResponseEntity<Object> getItemBasedRecommendations(String userId, String numberOfRecommendation )throws Exception{
         String output = "";
@@ -51,17 +61,9 @@ public class ItemBasedRecommendation {
         return new ResponseEntity<>(recommendations, HttpStatus.OK);
     }
 
-    public ResponseEntity< String > persistPerson(UserItemModel user) throws Exception {
-            dbhelper.insertDataIntotable(user);
-            setupProcess();
-            return ResponseEntity.status(HttpStatus.CREATED).build();
-    }
-
     public void setupProcess() throws Exception{
         // TODO Auto-generated method stub
         System.out.println("ITEM Based recommendation system");
-
-        dbhelper.addorupdatedatatoCSV();
 
         DataModel model = new FileDataModel(new File("UserItemRating.csv")); //original file
 

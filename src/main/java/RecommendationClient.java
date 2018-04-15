@@ -12,13 +12,20 @@ import java.util.List;
 @Controller
 @EnableAutoConfiguration
 public class RecommendationClient {
+    private static RecommendationClient recommendationClient = null;
 
     ItemBasedRecommendation itemBasedRecommender = null;
-    static DBHelper dbhelper = new DBHelper();
+    UserBasedRecommendation userBasedRecommender = null;
+    DataLoadBridge dataLoadBridge= null;
 
-    RecommendationClient() throws Exception {
-        itemBasedRecommender= new ItemBasedRecommendation();
-        itemBasedRecommender.setupProcess();
+    private RecommendationClient() throws Exception {
+    }
+
+    public static RecommendationClient  getInstance()throws Exception{
+        if(recommendationClient == null)
+            recommendationClient=  new RecommendationClient();
+
+        return recommendationClient;
     }
 
     @RequestMapping("/")
@@ -31,18 +38,31 @@ public class RecommendationClient {
     @RequestMapping("/getItemBasedRecommendations")
     @ResponseBody
     ResponseEntity<Object> getItemBasedRecommendations(@RequestParam(value="userId", defaultValue="200") String userId, @RequestParam(value="numberOfRecommendation", defaultValue="5") String numberOfRecommendation )throws Exception{
-       return itemBasedRecommender.getItemBasedRecommendations(userId,numberOfRecommendation);
+       return ItemBasedRecommendation.getInstance().getItemBasedRecommendations(userId,numberOfRecommendation);
+    }
+
+    // http://localhost:8090/getUserBasedRecommendations?userId=200&numberOfRecommendation=6
+    @RequestMapping("/getUserBasedRecommendations")
+    @ResponseBody
+    ResponseEntity<Object> getUserBasedRecommendations(@RequestParam(value="userId", defaultValue="200") String userId, @RequestParam(value="numberOfRecommendation", defaultValue="5") String numberOfRecommendation )throws Exception{
+        return UserBasedRecommendation.getInstance().getUserBasedRecommendations(userId,numberOfRecommendation);
     }
 
     // http://localhost:8090/updateUserData     body: {"userId": "200","itemId": "9","ratings": "5"}
     @RequestMapping(value = "/updateUserData", method = RequestMethod.POST)
     public ResponseEntity< String > persistPerson(@RequestBody UserItemModel user) throws Exception {
-       return itemBasedRecommender.persistPerson(user);
+        DataLoadBridge.getInstance().persistPerson(user);
+        ItemBasedRecommendation.getInstance().setupProcess();
+        UserBasedRecommendation.getInstance().setupProcess();
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-
-    public static void main(String[] args) {
-
+    public void setup() throws Exception{
+        ItemBasedRecommendation.getInstance().setupProcess();
+        UserBasedRecommendation.getInstance().setupProcess();
+    }
+    public static void main(String[] args) throws Exception{
+        RecommendationClient.getInstance().setup();
         SpringApplication.run(RecommendationClient.class, args);
 
     }

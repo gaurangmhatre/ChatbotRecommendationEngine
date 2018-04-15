@@ -9,10 +9,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DBHelper {
+
+    private static DBHelper dBHelper = null;
+
     Connection c = null;
     Statement stmt = null;
 
-    public DBHelper(){
+    private DBHelper(){
         try{
             Class.forName("org.postgresql.Driver");
             c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/ChatbotRecommentionDB",
@@ -22,6 +25,14 @@ public class DBHelper {
             System.err.println( e.getClass().getName()+": "+ e.getMessage() );
             System.exit(0);
         }
+    }
+
+
+    public static DBHelper getInstance(){
+        if(dBHelper ==null )
+            dBHelper =  new DBHelper();
+
+        return dBHelper;
     }
 
     void normalize() {

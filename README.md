@@ -32,9 +32,20 @@
                 {"itemID":17,"value":3.5536952},
                 {"itemID":18,"value":3.5515275}]
             
+            Endpoint 2:[GET] /getUserBasedRecommendations
+            eg:
+               http://localhost:8090/getUserBasedRecommendations?userId=200&numberOfRecommendation=6
+                            
+               output:
+               [{"itemID":1,"value":3.8856046},
+               {"itemID":19,"value":3.7924228},
+               {"itemID":13,"value":3.5575802},
+               {"itemID":18,"value":3.2640123},
+               {"itemID":17,"value":3.2016375},
+               {"itemID":4,"value":3.1363637}]
             
             
-            Endpoint 2: [POST] /updateUserData
+            Endpoint 3: [POST] /updateUserData
             eg:
                 http://localhost:8090/updateUserData     body: {"userId": "200","itemId": "9","ratings": "5"}
                 
