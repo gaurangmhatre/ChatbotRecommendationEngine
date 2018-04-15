@@ -31,24 +31,15 @@ import java.io.IOException;
 import java.util.List;
 
 
-@Controller
-@EnableAutoConfiguration
+
 public class ItemBasedRecommendation {
 
     static ItemBasedRecommender recommender = null;
     static DBHelper dbhelper = new DBHelper();
     public ItemBasedRecommendation(){ }
 
-    @RequestMapping("/")
-    @ResponseBody
-    String home() {
-        return "Hello World!";
-    }
 
-    // http://localhost:8090/getItemBasedRecommendations?userId=200&numberOfRecommendation=6
-    @RequestMapping("/getItemBasedRecommendations")
-    @ResponseBody
-    ResponseEntity<Object> getItemBasedRecommendations(@RequestParam(value="userId", defaultValue="200") String userId, @RequestParam(value="numberOfRecommendation", defaultValue="5") String numberOfRecommendation )throws Exception{
+    ResponseEntity<Object> getItemBasedRecommendations(String userId, String numberOfRecommendation )throws Exception{
         String output = "";
         List<RecommendedItem> recommendations;
         if(userId==null) {
@@ -57,21 +48,16 @@ public class ItemBasedRecommendation {
         int user = Integer.parseInt(userId);
         int numberRecommendation =  Integer.parseInt(numberOfRecommendation);
         recommendations = recommender.recommend(user, numberRecommendation);
-
         return new ResponseEntity<>(recommendations, HttpStatus.OK);
     }
 
-    // http://localhost:8090/updateUserData     body: {"userId": "200","itemId": "9","ratings": "5"}
-    @RequestMapping(value = "/updateUserData", method = RequestMethod.POST)
-    public ResponseEntity< String > persistPerson(@RequestBody UserItemModel user) throws Exception {
+    public ResponseEntity< String > persistPerson(UserItemModel user) throws Exception {
             dbhelper.insertDataIntotable(user);
             setupProcess();
             return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-
-
-    public static void setupProcess() throws Exception{
+    public void setupProcess() throws Exception{
         // TODO Auto-generated method stub
         System.out.println("ITEM Based recommendation system");
 
@@ -90,7 +76,6 @@ public class ItemBasedRecommendation {
 
         Optimizer optimizer=new ConjugateGradientOptimizer();
         recommender = new KnnItemBasedRecommender(model,similarity,optimizer,neighbours);
-
 
         RecommenderBuilder recommenderBuilder = new RecommenderBuilder() {
             public Recommender buildRecommender(DataModel model) throws TasteException {
@@ -111,11 +96,5 @@ public class ItemBasedRecommendation {
         System.out.println("Precision: " + stats.getPrecision());
         System.out.println("Recall: " + stats.getRecall());
         System.out.println("F1 Score: " + stats.getF1Measure());
-
-    }
-
-    public static void main(String[] args) throws Exception{
-        SpringApplication.run(ItemBasedRecommendation.class, args);
-        setupProcess();
     }
 }
