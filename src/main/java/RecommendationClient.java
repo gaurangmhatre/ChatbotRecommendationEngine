@@ -35,27 +35,27 @@ public class RecommendationClient {
     }
 
     // http://localhost:8090/getItemBasedRecommendations?userId=200&numberOfRecommendation=6
-    @RequestMapping("/getItemBasedRecommendations")
+    /*@RequestMapping("/getItemBasedRecommendations")
     @ResponseBody
     ResponseEntity<Object> getItemBasedRecommendations(@RequestParam(value="userId", defaultValue="200") String userId, @RequestParam(value="numberOfRecommendation", defaultValue="5") String numberOfRecommendation )throws Exception{
        return ItemBasedRecommendation.getInstance().getItemBasedRecommendations(userId,numberOfRecommendation);
-    }
+    }*/
 
     // http://localhost:8090/getUserBasedRecommendations?userId=200&numberOfRecommendation=6
-    @RequestMapping("/getUserBasedRecommendations")
+    /*@RequestMapping("/getUserBasedRecommendations")
     @ResponseBody
     ResponseEntity<Object> getUserBasedRecommendations(@RequestParam(value="userId", defaultValue="200") String userId, @RequestParam(value="numberOfRecommendation", defaultValue="5") String numberOfRecommendation )throws Exception{
         return UserBasedRecommendation.getInstance().getUserBasedRecommendations(userId,numberOfRecommendation);
-    }
+    }*/
 
     // http://localhost:8090/updateUserData     body: {"userId": "200","itemId": "9","ratings": "5"}
-    @RequestMapping(value = "/updateUserData", method = RequestMethod.POST)
-    public ResponseEntity< String > persistPerson(@RequestBody UserItemModel user) throws Exception {
+    /*@RequestMapping(value = "/updateUserData", method = RequestMethod.POST)
+    public ResponseEntity< String > persistUserData(@RequestBody UserItemModel user) throws Exception {
         DataLoadBridge.getInstance().persistPerson(user);
         ItemBasedRecommendation.getInstance().setupProcess();
         UserBasedRecommendation.getInstance().setupProcess();
         return ResponseEntity.status(HttpStatus.CREATED).build();
-    }
+    }*/
 
     public void setup() throws Exception{
         ItemBasedRecommendation.getInstance().setupProcess();

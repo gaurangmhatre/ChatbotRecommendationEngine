@@ -16,6 +16,15 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/amqp-client-1.6.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
     <orderEntry type="library" name="Maven: org.apache.mahout:mahout-core:0.7" level="project" />
     <orderEntry type="library" name="Maven: org.apache.mahout:mahout-math:0.7" level="project" />
     <orderEntry type="library" name="Maven: org.uncommons.maths:uncommons-maths:1.2.2" level="project" />
@@ -77,5 +86,8 @@
     <orderEntry type="library" name="Maven: org.springframework:spring-aop:5.0.5.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-context:5.0.5.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-expression:5.0.5.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: com.rabbitmq:amqp-client:5.2.0" level="project" />
+    <orderEntry type="library" name="Maven: org.json:json:20180130" level="project" />
+    <orderEntry type="library" name="Maven: com.google.code.gson:gson:2.8.2" level="project" />
   </component>
 </module>

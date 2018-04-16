@@ -4,6 +4,14 @@ public class UserItemModel {
     String ratings;
     String NormalizedRatings;
 
+    public UserItemModel(){}
+
+    public UserItemModel(String userId, String itemId, String ratings) {
+        this.userId = userId;
+        this.itemId = itemId;
+        this.ratings = ratings;
+    }
+
     public String getUserId() {
         return userId;
     }

@@ -1,3 +1,4 @@
+import com.google.gson.Gson;
 import org.apache.mahout.cf.taste.common.TasteException;
 import org.apache.mahout.cf.taste.eval.IRStatistics;
 import org.apache.mahout.cf.taste.eval.RecommenderBuilder;
@@ -40,7 +41,7 @@ public class UserBasedRecommendation {
         return userBasedRecommendation;
     }
 
-    ResponseEntity<Object> getUserBasedRecommendations(String userId, String numberOfRecommendation )throws Exception{
+    /*ResponseEntity<Object> getUserBasedRecommendations(String userId, String numberOfRecommendation )throws Exception{
         List<RecommendedItem> recommendations;
         if(userId==null) {
             return null;
@@ -51,7 +52,21 @@ public class UserBasedRecommendation {
         recommendations = recommender.recommend(user, numberRecommendation);
         return new ResponseEntity<>(recommendations, HttpStatus.OK);
 
+    }*/
+
+    String getUserBasedRecommendations(String userId, String numberOfRecommendation)throws Exception{
+        List<RecommendedItem> recommendations;
+        if(userId==null) {
+            return null;
+        }
+        int user = Integer.parseInt(userId);
+        int numberRecommendation =  Integer.parseInt(numberOfRecommendation);
+        recommendations = recommender.recommend(user, numberRecommendation);
+        String output  = new Gson().toJson(recommendations);
+        return output;
     }
+
+
 
     public void setupProcess() throws Exception{
         // TODO Auto-generated method stub
