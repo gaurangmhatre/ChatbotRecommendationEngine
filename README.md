@@ -1,5 +1,10 @@
 # Chatbot Recommendation Engine
 
+##### Architecture 
+
+![alt text](https://github.com/gaurangmhatre/ChatbotRecommendationEngine/blob/master/images/ArchitectureDiagram.jpg)
+
+
 ##### Two main components type explored with different algorithms,
 
             1. UserBased Recommendation Engine
